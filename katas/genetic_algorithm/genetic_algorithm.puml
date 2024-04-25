@@ -1,0 +1,102 @@
+@startuml genetic_algorithm
+set namespaceSeparator ::
+
+class "genetic_algorithm::src::genetic_evolver.dart::GeneticEvolver" {
+  -BehaviorSubject<Population> _populationStreamController
+  -double _retainPercentage
+  -double _randomSelect
+  -double _mutationPercentage
+  -Population _currentPopulation
+  +Population currentPopulation
+  +dynamic populationStream
+  +Future evolve()
+  -dynamic _evolveNTimes()
+  -dynamic _evolveOnce()
+  +Future stop()
+}
+
+"genetic_algorithm::src::genetic_evolver.dart::GeneticEvolver" o-- "rxdart::src::subjects::behavior_subject.dart::BehaviorSubject<Population>"
+"genetic_algorithm::src::genetic_evolver.dart::GeneticEvolver" o-- "genetic_algorithm::src::population.dart::Population"
+
+class "genetic_algorithm::src::individual.dart::Individual" {
+  {static} +Random randomGenerator
+  -List<double> _values
+  -double Function(List<double>) _fitnessFunction
+  +List<double> values
+  +int length
+  +double Function(List<double>) fitnessFunction
+  +double fitness
+  {static} -List _createRandomList()
+  +int compareTo()
+  +String toString()
+}
+
+"genetic_algorithm::src::individual.dart::Individual" o-- "dart::math::Random"
+"genetic_algorithm::src::individual.dart::Individual" o-- "genetic_algorithm::src::individual.dart::double Function(List<double>)"
+"dart::core::Comparable<T>" <|-- "genetic_algorithm::src::individual.dart::Individual"
+
+class "genetic_algorithm::src::params.dart::IndividualParams" {
+  {static} +double Function(List<double>) defaultFitnessFunction
+  {static} +int defaultLength
+  {static} +int defaultRandomGeneratorCeiling
+  +List<double> values
+  +double Function(List<double>) fitnessFunction
+  +int length
+  +int randomGeneratorCeiling
+}
+
+"genetic_algorithm::src::params.dart::IndividualParams" o-- "genetic_algorithm::src::individual.dart::double Function(List<double>)"
+
+class "genetic_algorithm::src::params.dart::PopulationParams" {
+  {static} +double Function(List<Individual>) defaultGradeFunction
+  {static} +int defaultPopulationSize
+  +List<Individual> individuals
+  +double Function(List<Individual>) gradeFunction
+  +int size
+}
+
+"genetic_algorithm::src::params.dart::PopulationParams" o-- "genetic_algorithm::src::population.dart::double Function(List<Individual>)"
+
+class "genetic_algorithm::src::params.dart::GeneticEvolverParams" {
+  {static} +double defaultRetainPercentage
+  {static} +double defaultRandomSelect
+  {static} +double defaultMutationPercentage
+  +double retainPercentage
+  +double randomSelect
+  +double mutationPercentage
+}
+
+class "genetic_algorithm::src::population.dart::Population" {
+  {static} +Random randomGenerator
+  -double Function(List<Individual>) _gradeFunction
+  -List<Individual> _individuals
+  +List<Individual> individuals
+  +int length
+  +double grade
+  {static} -List _createRandomIndividualsList()
+  -Population _newPopulationFromThisPopulation()
+  -List _copyIndividuals()
+  +Population sort()
+  +Population naturalSelectionWithDiversity()
+  -int _retainLength()
+  -bool _randomSelectBiggerThanNextDouble()
+  +Population mutate()
+  -bool _mutationPercentageBiggerThanNextDouble()
+  -int _positionToMutate()
+  -double _mutatedValue()
+  -Individual _newIndividualFromValues()
+  +Population crossover()
+  -int _childrenLength()
+  -int _generateParentRandomIndex()
+  -bool _maleIsNotFemale()
+  -int _calculateHalfLength()
+  -List _mergeValues()
+  -Individual _generateChild()
+  +String toString()
+}
+
+"genetic_algorithm::src::population.dart::Population" o-- "dart::math::Random"
+"genetic_algorithm::src::population.dart::Population" o-- "genetic_algorithm::src::population.dart::double Function(List<Individual>)"
+
+
+@enduml

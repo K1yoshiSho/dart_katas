@@ -1,0 +1,29 @@
+language: dart
+
+env:
+  global:
+    - DARTSDK=./flutter/bin/cache/dart-sdk/bin
+    - DARTFMT=$DARTSDK/dartfmt
+    - DARTANALYZER=$DARTSDK/dartanalyzer
+    - FLUTTER=./flutter/bin/flutter
+    - FLUTTER_GITHUB=https://github.com/flutter/flutter.git
+    - PROJECT=katas
+
+install:
+  - git clone $FLUTTER_GITHUB -b stable --depth 1
+  - $FLUTTER doctor
+  - $FLUTTER pub get
+
+jobs:
+  include:
+    - stage: Formatting
+      script:
+        - $DARTFMT -n $PROJECT --set-exit-if-changed
+
+    - stage: Static Analysis
+      script:
+        - $DARTANALYZER $PROJECT
+
+    - stage: Test
+      script:
+        - pub run test $PROJECT
