@@ -5,7 +5,7 @@ import 'package:tic_tac_toe/tic_tac_toe.dart';
 import 'tic_tac_toe_fixture_data.dart';
 
 void main() {
-  TicTacToeGame _game;
+  late TicTacToeGame _game;
 
   void _gameInitialization({
     int boardSize = TicTacToeInterface.defaultBoardSize,

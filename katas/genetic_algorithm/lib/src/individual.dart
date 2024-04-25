@@ -7,21 +7,15 @@ import 'params.dart';
 typedef FitnessFunction = double Function(List<double> values);
 
 @immutable
-class Individual with Comparable<Individual> {
+class Individual implements Comparable<Individual> {
   static final Random randomGenerator = Random();
 
   final List<double> _values;
   final FitnessFunction _fitnessFunction;
 
   Individual([IndividualParams individualParams = const IndividualParams()])
-      : _values = individualParams.values ??
-            _createRandomList(individualParams.length,
-                individualParams.randomGeneratorCeiling),
+      : _values = individualParams.values,
         _fitnessFunction = individualParams.fitnessFunction;
-
-  static List<double> _createRandomList(int length, int ceiling) =>
-      List<double>.generate(
-          length, (int _) => randomGenerator.nextInt(ceiling).toDouble());
 
   List<double> get values => _values;
 

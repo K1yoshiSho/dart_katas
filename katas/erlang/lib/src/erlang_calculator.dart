@@ -10,8 +10,8 @@ class ErlangCalculator {
   final int _numChannels;
 
   const ErlangCalculator({
-    @required Erlang erlangs,
-    @required int numChannels,
+    required Erlang erlangs,
+    required int numChannels,
   })  : _erlangs = erlangs,
         _numChannels = numChannels;
 

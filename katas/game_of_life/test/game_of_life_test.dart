@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
 import 'package:game_of_life/game_of_life.dart';
@@ -8,8 +7,8 @@ import 'game_of_life_fixture_data.dart';
 void main() {
   group('Game of Life', () {
     GameOfLife _setUpAndPlayGame({
-      @required List<List<String>> initialGrid,
-      int maxGenerations,
+      required List<List<String>> initialGrid,
+      int? maxGenerations,
     }) {
       maxGenerations = maxGenerations ?? GameOfLife.defaultMaxGenerations;
       final GameOfLife _game = GameOfLife(initialGrid: initialGrid);
@@ -25,8 +24,7 @@ void main() {
     });
 
     test('Simple shapes and results', () {
-      initialGridsAndResults.forEach(
-          (List<List<String>> initialGrid, List<List<String>> expectedGrid) {
+      initialGridsAndResults.forEach((List<List<String>> initialGrid, List<List<String>> expectedGrid) {
         final GameOfLife _game = _setUpAndPlayGame(
           initialGrid: initialGrid,
           maxGenerations: initialGridsAndMaxGenerations[initialGrid],

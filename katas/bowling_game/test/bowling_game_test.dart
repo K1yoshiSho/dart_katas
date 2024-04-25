@@ -5,7 +5,7 @@ import 'package:bowling_game/bowling_game.dart';
 import 'bowling_game_fixture_data.dart';
 
 void main() {
-  BowlingGame _game;
+  late BowlingGame _game;
 
   setUp(() {
     _game = BowlingGame();
@@ -23,7 +23,10 @@ void main() {
   test('Test canonical games: gutter, all ones and perfect', () {
     rollsPinsAndScores.forEach((Map<String, int> rollsPins, int score) {
       _game = BowlingGame();
-      _rollManyPins(rollsPins['rolls'], rollsPins['pins']);
+      if (rollsPins['rolls'] != null && rollsPins['pins'] != null) {
+        _rollManyPins(rollsPins['rolls']!, rollsPins['pins']!);
+      }
+      ;
 
       expect(_game.score(), score);
     });

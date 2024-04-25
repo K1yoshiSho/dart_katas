@@ -2,8 +2,6 @@ import 'package:meta/meta.dart';
 
 import 'package:genetic_algorithm/genetic_algorithm.dart';
 
-import 'individual.dart';
-
 double infinityFitnessFunction(List<double> values) => double.infinity;
 double infinityGradeFunction(List<Individual> individuals) => double.infinity;
 
@@ -19,7 +17,7 @@ class IndividualParams {
   final int randomGeneratorCeiling;
 
   const IndividualParams({
-    this.values,
+    this.values = const [],
     this.fitnessFunction = defaultFitnessFunction,
     this.length = defaultLength,
     this.randomGeneratorCeiling = defaultRandomGeneratorCeiling,
@@ -36,7 +34,7 @@ class PopulationParams {
   final int size;
 
   const PopulationParams({
-    this.individuals,
+    this.individuals = const [],
     this.gradeFunction = defaultGradeFunction,
     this.size = defaultPopulationSize,
   });

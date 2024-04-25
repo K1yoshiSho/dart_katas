@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:meta/meta.dart';
 
 import 'cell.dart';
 import 'grid_parser.dart';
@@ -13,7 +12,7 @@ class GameOfLife {
   final List<List<List<Cell>>> _grids = [];
 
   GameOfLife({
-    @required List<List<String>> initialGrid,
+    required List<List<String>> initialGrid,
   })  : _height = initialGrid.length,
         _width = initialGrid.first.length {
     List<List<Cell>> initialCellGrid = _gridParser.parseStringGrid(initialGrid);
@@ -21,8 +20,7 @@ class GameOfLife {
     _grids.add(initialCellGrid);
   }
 
-  List<List<String>> get lastGrid =>
-      _gridParser.cellGridToStringGrid(_grids.last);
+  List<List<String>> get lastGrid => _gridParser.cellGridToStringGrid(_grids.last);
 
   List<List<List<String>>> get allGrids {
     final List<List<List<String>>> stringGrids = [];
@@ -38,8 +36,8 @@ class GameOfLife {
     int maxGenerations = defaultMaxGenerations,
   }) {
     int currentGeneration = 0;
-    List<List<Cell>> nextGrid;
-    List<List<Cell>> baseGrid;
+    List<List<Cell>> nextGrid = [];
+    List<List<Cell>> baseGrid = [];
 
     do {
       List<List<Cell>> baseGrid = _grids.last;
@@ -75,20 +73,16 @@ class GameOfLife {
   List<List<Cell>> _applyRules(
     List<List<Cell>> baseGrid,
   ) {
-    final List<List<Cell>> nextGrid =
-        _gridParser.emptyCellGrid(_height, _width);
+    final List<List<Cell>> nextGrid = _gridParser.emptyCellGrid(_height, _width);
 
     // int errorCounter = 0;
-    _gridParser.heightWidthLooper(_height, _width,
-        (int heightIndex, int widthIndex) {
+    _gridParser.heightWidthLooper(_height, _width, (int heightIndex, int widthIndex) {
       final Cell currentCell = baseGrid[heightIndex][widthIndex];
       int totalAliveNeighbors = 0;
 
-      _vicinityLooper(heightIndex, widthIndex,
-          (int neighborHeightIndex, int neighborWidthIndex) {
+      _vicinityLooper(heightIndex, widthIndex, (int neighborHeightIndex, int neighborWidthIndex) {
         try {
-          final Cell neighborCell =
-              baseGrid[neighborHeightIndex][neighborWidthIndex];
+          final Cell neighborCell = baseGrid[neighborHeightIndex][neighborWidthIndex];
           if (neighborCell.isAlive) {
             totalAliveNeighbors++;
           }
@@ -121,8 +115,7 @@ class GameOfLife {
     }
   }
 
-  bool _isNotTheCellItself(heightStep, widthStep) =>
-      !(heightStep == 0 && widthStep == 0);
+  bool _isNotTheCellItself(heightStep, widthStep) => !(heightStep == 0 && widthStep == 0);
 
   bool _willLive(
     bool isAlive,
@@ -140,15 +133,11 @@ class GameOfLife {
       return false;
   }
 
-  bool ruleUnderpopulation(bool isAlive, int totalAliveNeighbors) =>
-      isAlive && totalAliveNeighbors < 2;
+  bool ruleUnderpopulation(bool isAlive, int totalAliveNeighbors) => isAlive && totalAliveNeighbors < 2;
 
-  bool ruleOverpopulation(bool isAlive, int totalAliveNeighbors) =>
-      isAlive && totalAliveNeighbors > 3;
+  bool ruleOverpopulation(bool isAlive, int totalAliveNeighbors) => isAlive && totalAliveNeighbors > 3;
 
-  bool ruleSurvive(bool isAlive, int totalAliveNeighbors) =>
-      isAlive && (totalAliveNeighbors == 2 || totalAliveNeighbors == 3);
+  bool ruleSurvive(bool isAlive, int totalAliveNeighbors) => isAlive && (totalAliveNeighbors == 2 || totalAliveNeighbors == 3);
 
-  bool ruleComeToLife(bool isAlive, int totalAliveNeighbors) =>
-      !isAlive && totalAliveNeighbors == 3;
+  bool ruleComeToLife(bool isAlive, int totalAliveNeighbors) => !isAlive && totalAliveNeighbors == 3;
 }

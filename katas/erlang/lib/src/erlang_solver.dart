@@ -8,14 +8,14 @@ import 'erlang_calculator.dart';
 // would also render this class mutable...
 @immutable
 class ErlangSolver {
-  final Erlang _erlangs;
+  final Erlang? _erlangs;
   final double _b, _precision;
-  final int _numChannels;
+  final int? _numChannels;
 
   const ErlangSolver({
-    @required double b,
-    Erlang erlangs,
-    int numChannels,
+    required double b,
+    Erlang? erlangs,
+    int? numChannels,
     double precision = .0001,
   })  : _erlangs = erlangs,
         _b = b,
@@ -32,8 +32,7 @@ class ErlangSolver {
     double bFound = double.infinity;
     int numChannels = 1;
     for (; bFound > _b; numChannels++) {
-      final ErlangCalculator erlangCalculator =
-          ErlangCalculator(erlangs: _erlangs, numChannels: numChannels);
+      final ErlangCalculator erlangCalculator = ErlangCalculator(erlangs: _erlangs, numChannels: numChannels);
       bFound = erlangCalculator.calcB();
     }
 
@@ -49,10 +48,8 @@ class ErlangSolver {
       throw Exception('It is also necessary to specify the number of channels');
     }
 
-    final List<double> initialApproximations =
-        _getInitialErlangsApproximation();
-    double bFound = initialApproximations.first,
-        eFound = initialApproximations.last;
+    final List<double> initialApproximations = _getInitialErlangsApproximation();
+    double bFound = initialApproximations.first, eFound = initialApproximations.last;
 
     return _approximateErlangs(bFound, eFound);
   }
@@ -65,8 +62,7 @@ class ErlangSolver {
       bFound - _b >= _precision ? eFound -= halfStep : eFound += halfStep;
 
       final Erlang erlangs = Erlang(callDuration: eFound);
-      final ErlangCalculator erlangCalculator =
-          ErlangCalculator(erlangs: erlangs, numChannels: _numChannels);
+      final ErlangCalculator erlangCalculator = ErlangCalculator(erlangs: erlangs, numChannels: _numChannels ?? 0);
       bFound = erlangCalculator.calcB();
     }
 
@@ -78,8 +74,7 @@ class ErlangSolver {
     double eFound = 1;
     while (bFound - _b <= _precision) {
       final Erlang erlangs = Erlang(callDuration: eFound);
-      final ErlangCalculator erlangCalculator =
-          ErlangCalculator(erlangs: erlangs, numChannels: _numChannels);
+      final ErlangCalculator erlangCalculator = ErlangCalculator(erlangs: erlangs, numChannels: _numChannels ?? 0);
       bFound = erlangCalculator.calcB();
       eFound++;
     }

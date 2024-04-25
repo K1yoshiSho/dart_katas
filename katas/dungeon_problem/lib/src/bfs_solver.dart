@@ -18,7 +18,7 @@ class BfsSolver<T extends Cell> {
   int _nodesInNextLayer = 0;
   List<List<List<int>>> _paths;
 
-  BfsSolver({@required List<List<T>> grid})
+  BfsSolver({required List<List<T>> grid})
       : _grid = grid,
         _visitedMatrix = BoardUtils.createVisitedMatrix(grid),
         _startPosition = BoardUtils.findStartOrEndPosition(grid, Status.start),
@@ -40,10 +40,8 @@ class BfsSolver<T extends Cell> {
     List<int> currentPosition = _endPosittion;
     while (currentPosition.isNotEmpty) {
       completeShortestPath.add(currentPosition);
-      final int currentPositionRowIndex = currentPosition[0],
-          currentPositionColIndex = currentPosition[1];
-      currentPosition =
-          _paths[currentPositionRowIndex][currentPositionColIndex];
+      final int currentPositionRowIndex = currentPosition[0], currentPositionColIndex = currentPosition[1];
+      currentPosition = _paths[currentPositionRowIndex][currentPositionColIndex];
     }
 
     return completeShortestPath.reversed.toList();
@@ -57,8 +55,7 @@ class BfsSolver<T extends Cell> {
   List<int> _dequeue() => [_rowQueue.removeFirst(), _colQueue.removeFirst()];
 
   int shortestPath() {
-    final int startRowIndex = _startPosition[0],
-        startColIndex = _startPosition[1];
+    final int startRowIndex = _startPosition[0], startColIndex = _startPosition[1];
 
     _enqueue(startRowIndex, startColIndex);
     _visitedMatrix[startRowIndex][startColIndex] = true;
@@ -98,14 +95,11 @@ class BfsSolver<T extends Cell> {
       final int possibleNeighborRowIndex = rowIndex + rowVectors[step];
       final int possibleNeighborColIndex = colIndex + colVectors[step];
 
-      if (_notOutOfBoundsNotVisitedAndNotBlocked(
-          possibleNeighborRowIndex, possibleNeighborColIndex)) {
-        _updatePaths(possibleNeighborRowIndex, possibleNeighborColIndex,
-            rowIndex, colIndex);
+      if (_notOutOfBoundsNotVisitedAndNotBlocked(possibleNeighborRowIndex, possibleNeighborColIndex)) {
+        _updatePaths(possibleNeighborRowIndex, possibleNeighborColIndex, rowIndex, colIndex);
 
         _enqueue(possibleNeighborRowIndex, possibleNeighborColIndex);
-        _visitedMatrix[possibleNeighborRowIndex][possibleNeighborColIndex] =
-            true;
+        _visitedMatrix[possibleNeighborRowIndex][possibleNeighborColIndex] = true;
         _nodesInNextLayer++;
       }
     }
@@ -117,20 +111,13 @@ class BfsSolver<T extends Cell> {
     int upperCellRowIndex,
     int upperCellColIndex,
   ) =>
-      _paths[currentCellRowIndex]
-          [currentCellColIndex] = [upperCellRowIndex, upperCellColIndex];
+      _paths[currentCellRowIndex][currentCellColIndex] = [upperCellRowIndex, upperCellColIndex];
 
   bool _notOutOfBoundsNotVisitedAndNotBlocked(int rowIndex, int colIndex) =>
-      _notOutOfBoundsPosition(rowIndex, colIndex) &&
-      _notVisited(rowIndex, colIndex) &&
-      _notBlocked(rowIndex, colIndex);
+      _notOutOfBoundsPosition(rowIndex, colIndex) && _notVisited(rowIndex, colIndex) && _notBlocked(rowIndex, colIndex);
 
-  bool _notOutOfBoundsPosition(int rowIndex, int colIndex) => !(rowIndex < 0 ||
-      colIndex < 0 ||
-      rowIndex >= BoardUtils.numberOfRows(_grid) ||
-      colIndex >= BoardUtils.numberOfCols(_grid));
-  bool _notVisited(int rowIndex, int colIndex) =>
-      !_visitedMatrix[rowIndex][colIndex];
-  bool _notBlocked(int rowIndex, int colIndex) =>
-      _grid[rowIndex][colIndex].isNotBlocked;
+  bool _notOutOfBoundsPosition(int rowIndex, int colIndex) =>
+      !(rowIndex < 0 || colIndex < 0 || rowIndex >= BoardUtils.numberOfRows(_grid) || colIndex >= BoardUtils.numberOfCols(_grid));
+  bool _notVisited(int rowIndex, int colIndex) => !_visitedMatrix[rowIndex][colIndex];
+  bool _notBlocked(int rowIndex, int colIndex) => _grid[rowIndex][colIndex].isNotBlocked;
 }

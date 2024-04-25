@@ -36,7 +36,7 @@ class ErlangTableGenerator {
         final ErlangSolver erlangSolver =
             ErlangSolver(b: blockagePercentage, numChannels: numChannels);
         final Erlang erlangs = erlangSolver.findErlangs();
-        erlangBTable[numChannels].add(erlangs);
+        erlangBTable[numChannels]?.add(erlangs);
       });
     }
 

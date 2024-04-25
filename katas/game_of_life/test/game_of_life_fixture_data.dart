@@ -6,7 +6,7 @@ final Map<List<List<String>>, List<List<String>>> initialGridsAndResults = {
   beeHive: beeHive,
 };
 
-final Map<List<List<String>>, int> initialGridsAndMaxGenerations = {
+final Map<List<List<String>>, int?> initialGridsAndMaxGenerations = {
   oneLivingCell: null,
   twoLivingCells: null,
   threeLivingCells: null,

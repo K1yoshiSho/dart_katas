@@ -1,7 +1,7 @@
 class InsertionSorter {
   List<String> _charsList = <String>[];
   int _referenceIndex = 1;
-  int _backtrackingIndex;
+  late int _backtrackingIndex;
 
   InsertionSorter();
 
@@ -28,13 +28,9 @@ class InsertionSorter {
     _backtrackingIndex--;
   }
 
-  bool _isNotFirstPositionAndCurrentCharIsSmallerThanPreviousChar() =>
-      _isNotFirstPosition() && _currentCharIsSmallerThanPreviousChar();
+  bool _isNotFirstPositionAndCurrentCharIsSmallerThanPreviousChar() => _isNotFirstPosition() && _currentCharIsSmallerThanPreviousChar();
 
-  bool _currentCharIsSmallerThanPreviousChar() =>
-      _charsList[_backtrackingIndex]
-          .compareTo(_charsList[_backtrackingIndex - 1]) <
-      0;
+  bool _currentCharIsSmallerThanPreviousChar() => _charsList[_backtrackingIndex].compareTo(_charsList[_backtrackingIndex - 1]) < 0;
 
   bool _isNotFirstPosition() => _backtrackingIndex > 0;
 

@@ -60,8 +60,7 @@ void main() {
         <double>[7.96, .03]: 13,
       }..forEach((List<double> params, int correctN) {
           final Erlang erlangs = Erlang(callDuration: params[0]);
-          final ErlangSolver erlangSolver =
-              ErlangSolver(erlangs: erlangs, b: params[1]);
+          final ErlangSolver erlangSolver = ErlangSolver(erlangs: erlangs, b: params[1]);
           final int numChannels = erlangSolver.findNumChannels();
           expect(numChannels, correctN);
         });
@@ -74,8 +73,7 @@ void main() {
         <double>[.2, 5]: Erlang(callDuration: 4.01),
         <double>[.03, 13]: Erlang(callDuration: 7.96),
       }..forEach((List<double> params, Erlang correctE) {
-          final ErlangSolver erlangSolver =
-              ErlangSolver(b: params[0], numChannels: params[1].toInt());
+          final ErlangSolver erlangSolver = ErlangSolver(b: params[0], numChannels: params[1].toInt());
           final Erlang erlangs = erlangSolver.findErlangs();
           expect(erlangs.e, lessThan(correctE.e + .05));
         });
@@ -91,8 +89,7 @@ void main() {
         blockagePercentages: <double>[.01, .02, .2, .5],
       );
 
-      final Map<int, List<Erlang>> erlangBTable =
-          erlangTableGenerator.generateBTable();
+      final Map<int, List<Erlang>> erlangBTable = erlangTableGenerator.generateBTable();
 
       const Map<int, List<Erlang>> correctErlangBTable = <int, List<Erlang>>{
         1: <Erlang>[
@@ -117,8 +114,7 @@ void main() {
 
       erlangBTable.forEach((int numChannels, List<Erlang> erlangs) {
         for (int colIndex = 0; colIndex < erlangs.length; colIndex++) {
-          final Erlang erlang = erlangs[colIndex],
-              correctErlang = correctErlangBTable[numChannels][colIndex];
+          final Erlang erlang = erlangs[colIndex], correctErlang = correctErlangBTable[numChannels]![colIndex];
           expect(erlang.e, lessThan(correctErlang.e + .05));
         }
       });

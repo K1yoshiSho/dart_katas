@@ -13,10 +13,8 @@ abstract class BoardUtils {
   static int numberOfRows<T>(List<List<T>> grid) => grid.length;
   static int numberOfCols<T>(List<List<T>> grid) => grid.first.length;
 
-  static List<List<DungeonCell>> stringDungeonToCellDungeon(
-      List<List<String>> stringDungeon) {
-    final int totalRows = numberOfRows(stringDungeon),
-        totalCols = numberOfCols(stringDungeon);
+  static List<List<DungeonCell>> stringDungeonToCellDungeon(List<List<String>> stringDungeon) {
+    final int totalRows = numberOfRows(stringDungeon), totalCols = numberOfCols(stringDungeon);
     final List<List<DungeonCell>> cellDungeon = [];
 
     looper(totalRows, (int rowIndex) {
@@ -32,10 +30,8 @@ abstract class BoardUtils {
     return cellDungeon;
   }
 
-  static List<List<String>> cellGridToStringDungeon<T extends Cell>(
-      List<List<T>> cellGrid) {
-    final int totalRows = numberOfRows(cellGrid),
-        totalCols = numberOfCols(cellGrid);
+  static List<List<String>> cellGridToStringDungeon<T extends Cell>(List<List<T>> cellGrid) {
+    final int totalRows = numberOfRows(cellGrid), totalCols = numberOfCols(cellGrid);
     final List<List<String>> stringDungeon = [];
 
     looper(totalRows, (int rowIndex) {
@@ -51,8 +47,7 @@ abstract class BoardUtils {
   }
 
   static List<List<bool>> createVisitedMatrix<T>(List<List<T>> grid) {
-    final int totalRows = BoardUtils.numberOfRows(grid),
-        totalCols = BoardUtils.numberOfCols(grid);
+    final int totalRows = BoardUtils.numberOfRows(grid), totalCols = BoardUtils.numberOfCols(grid);
 
     return List<List<bool>>.generate(totalRows, (int rowIndex) {
       return List<bool>.generate(totalCols, (int colIndex) => false);
@@ -63,10 +58,9 @@ abstract class BoardUtils {
     List<List<T>> cellGrid,
     Status startOrEnd,
   ) {
-    final int totalRows = numberOfRows(cellGrid),
-        totalCols = numberOfCols(cellGrid);
+    final int totalRows = numberOfRows(cellGrid), totalCols = numberOfCols(cellGrid);
 
-    List<int> position;
+    List<int> position = [];
     looper(totalRows, (int rowIndex) {
       looper(totalCols, (int colIndex) {
         final T cell = cellGrid[rowIndex][colIndex];
@@ -80,12 +74,10 @@ abstract class BoardUtils {
   }
 
   static bool isStartOrEnd<T extends Cell>(Status startOrEnd, T cell) =>
-      (startOrEnd == Status.start && cell.isStart) ||
-      (startOrEnd == Status.end && cell.isEnd);
+      (startOrEnd == Status.start && cell.isStart) || (startOrEnd == Status.end && cell.isEnd);
 
   static List<List<List<int>>> createPathGrid<T>(List<List<T>> grid) {
-    final int totalRows = BoardUtils.numberOfRows(grid),
-        totalCols = BoardUtils.numberOfCols(grid);
+    final int totalRows = BoardUtils.numberOfRows(grid), totalCols = BoardUtils.numberOfCols(grid);
 
     return List<List<List<int>>>.generate(totalRows, (int rowIndex) {
       return List<List<int>>.generate(totalCols, (int colIndex) => <int>[]);
